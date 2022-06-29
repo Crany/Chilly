@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('Replies with Pong!'),
-    async execute(interaction, client, mongoose) {
+    async execute(interaction, client) {
         var ping = client.ws.ping; // Gets the ping of the bot //
 
         let pingEmbed = new MessageEmbed()

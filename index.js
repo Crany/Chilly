@@ -3,6 +3,8 @@ const { Client, Intents, Collection, } = require('discord.js'); // Import discor
 const path = require('node:path')
 const fs = require('node:fs')
 
+const mongoose = require('mongoose')
+
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 
@@ -95,4 +97,17 @@ client.on('interactionCreate', async (interaction) => { // On the creation of an
     }
 })
 
-client.login(process.env.TOKEN)
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log("├── Connected to the MongoDB Database.");
+    client.login(process.env.TOKEN).catch((err) => {
+        console.log("└── Failed to connect to Discord.");
+        console.error(err);
+    });
+}).catch((err) => {
+    console.log("└── Failed to connect to the MongoDB Database.");
+    console.error(err);
+    process.exit(1);
+});

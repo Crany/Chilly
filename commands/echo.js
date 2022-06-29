@@ -13,6 +13,6 @@ module.exports = {
     async execute(interaction, client) {
         let query = interaction.options.getString('query')
 
-        interaction.reply({ embeds: [new MessageEmbed().setColor('GREEN').setDescription(query)] })
+        await interaction.reply({ embeds: [new MessageEmbed().setColor('GREEN').setDescription(query)] })
     } 
 }

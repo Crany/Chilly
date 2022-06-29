@@ -20,7 +20,7 @@ module.exports = {
             .setDescription('Reason for the timeout.')
             .setRequired(true)
         ),
-    async execute(interaction, client, mongoose) {
+    async execute(interaction, client) {
         if (interaction.isAutocomplete()) {
             let focusedValue = interaction.options.getFocused().replace(/\D/g,'');
             if (focusedValue == "") focusedValue = 1
@@ -34,7 +34,6 @@ module.exports = {
                     `${focusedValue} hour`,
                     `${focusedValue} day`,
                     `${focusedValue} week`,
-                    `${focusedValue} month`,
                 ];
             } else {
                 choices = [
@@ -68,7 +67,7 @@ module.exports = {
                 'week'  , 'week'   ,
             ]
 
-            if (hasModRoles.has('i', interaction) != true) {
+            if (hasModRoles.has(interaction) != true) {
                 await interaction.reply({ embeds: [
                     new MessageEmbed()
                     .setDescription('You have to be a Moderator to do this action.')
@@ -83,11 +82,14 @@ module.exports = {
                         .setColor('#FFBF00')
                     ] })
                 } else {
-                    if      (length[1] == 'second' || length[1] == 'seconds') user.timeout(length[0] * 1000, reason);
-                    else if (length[1] == 'minute' || length[1] == 'minutes') user.timeout(length[0] * 60 * 1000, reason);
-                    else if (length[1] == 'hour'   || length[1] == 'hours')   user.timeout(length[0] * 60 * 60 * 1000, reason);
-                    else if (length[1] == 'day'    || length[1] == 'days')    user.timeout(length[0] * 24 * 60 * 60 * 1000, reason);
-                    else if (length[1] == 'week'   || length[1] == 'weeks')   user.timeout(length[0] * 7  * 24 * 60 * 60 * 1000, reason);
+                    let timoutLengthMilli;
+                    if      (length[1] == 'second' || length[1] == 'seconds') timoutLengthMilli = length[0] * 1000;
+                    else if (length[1] == 'minute' || length[1] == 'minutes') timoutLengthMilli = length[0] * 60 * 1000;
+                    else if (length[1] == 'hour'   || length[1] == 'hours')   timoutLengthMilli = length[0] * 60 * 60 * 1000;
+                    else if (length[1] == 'day'    || length[1] == 'days')    timoutLengthMilli = length[0] * 24 * 60 * 60 * 1000;
+                    else if (length[1] == 'week'   || length[1] == 'weeks')   timoutLengthMilli = length[0] * 7  * 24 * 60 * 60 * 1000;
+
+                    user.timeout(timoutLengthMilli, reason)
                     
                     let timeoutEmbed = new MessageEmbed()
                     .setDescription(`${user.user} is now on a timeout for ${length.join(' ')}.`)
