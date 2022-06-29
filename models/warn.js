@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const warnSchema = new mongoose.Schema({
-    id: mongoose.Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
     reason: String,
     warnedId: String,
     warnerId: String,

@@ -71,7 +71,7 @@ module.exports = {
             ] })
 
             const warnSave = new warnDB({
-                id: new mongoose.Types.ObjectId,
+                _id: new mongoose.Types.ObjectId,
                 reason: reason,
                 warnedId: warned.id,
                 warnerId: interaction.user.id,
