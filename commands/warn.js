@@ -61,7 +61,10 @@ module.exports = {
             interaction.guild.channels.cache.get('990298827208683590').send({ embeds: [
                 new MessageEmbed()
                 .setDescription(`${warned.user.tag} has been warned.`)
-                .addField('Reason', reason, false)
+                .addFields(
+                    {name: 'Warned By:', value: interaction.user.tag, inline: true},
+                    {name: 'Reason', value: reason, inline: true}
+                )
                 .setFooter(`ID: ${identifier}`)
                 .setTimestamp()
                 .setColor(keywords.embedColors.ORANGE)
