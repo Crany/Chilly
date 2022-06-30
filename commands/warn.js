@@ -62,8 +62,9 @@ module.exports = {
                 new MessageEmbed()
                 .setDescription(`${warned.user.tag} has been warned.`)
                 .addFields(
+                    {name: 'Warned:', value: warned.user.tag, inline: true},
                     {name: 'Warned By:', value: interaction.user.tag, inline: true},
-                    {name: 'Reason', value: reason, inline: true}
+                    {name: 'Reason', value: reason, inline: true},
                 )
                 .setFooter(`ID: ${identifier}`)
                 .setTimestamp()
