@@ -66,7 +66,7 @@ module.exports = {
                     {name: 'Warned By:', value: interaction.user.tag, inline: true},
                     {name: 'Reason', value: reason, inline: true},
                 )
-                .setFooter(`ID: \`${identifier}\``)
+                .setFooter(`ID: ${identifier}`)
                 .setTimestamp()
                 .setColor(keywords.embedColors.ORANGE)
             ] })

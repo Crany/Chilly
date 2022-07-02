@@ -51,7 +51,7 @@ module.exports = {
                 { name: 'Reported By:', value: informant.tag, inline: true},
                 { name: 'Reason:', value: reason, inline: true},
             )
-            .setFooter(`ID: \`${identifier}\``)
+            .setFooter(`ID: ${identifier}`)
             .setTimestamp(new Date())
             client.channels.cache.get('992838852593070142').send({ embeds: [reportChannelEmbed] })
 
