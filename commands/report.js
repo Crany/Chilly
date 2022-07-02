@@ -58,7 +58,7 @@ module.exports = {
             const reportdb = new reportDB({
                 _id: new mongoose.Types.ObjectId,
                 reason: reason,
-                reportedTag: reportedUser.tag,
+                reportedID: reportedUser.id,
                 identifier: identifier,
             })
 
