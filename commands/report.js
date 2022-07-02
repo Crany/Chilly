@@ -59,6 +59,7 @@ module.exports = {
                 _id: new mongoose.Types.ObjectId,
                 reason: reason,
                 reportedID: reportedUser.id,
+                reporterID: interaction.user.id,
                 identifier: identifier,
             })
 
