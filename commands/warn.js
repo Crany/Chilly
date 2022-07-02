@@ -51,7 +51,7 @@ module.exports = {
 
             await interaction.reply({ embeds: [replyEmbed] })
         } else {
-            replyEmbed.setDescription(`${warned.user.tag} has been warned.`)
+            replyEmbed.setTitle(`${warned.user.tag} has been warned.`)
             .setColor(keywords.embedColors.GREEN)
             .setDescription(`Remember this ID: \`${identifier}\``)
             .setTimestamp();
