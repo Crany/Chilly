@@ -53,7 +53,7 @@ module.exports = {
         } else {
             replyEmbed.setDescription(`${warned.user.tag} has been warned.`)
             .setColor(keywords.embedColors.GREEN)
-            .setFooter(`Remember this ID: ${identifier}`)
+            .setFooter(`Remember this ID: \`${identifier}\``)
             .setTimestamp();
 
             await interaction.reply({ embeds: [replyEmbed] })
@@ -66,7 +66,7 @@ module.exports = {
                     {name: 'Warned By:', value: interaction.user.tag, inline: true},
                     {name: 'Reason', value: reason, inline: true},
                 )
-                .setFooter(`ID: ${identifier}`)
+                .setFooter(`ID: \`${identifier}\``)
                 .setTimestamp()
                 .setColor(keywords.embedColors.ORANGE)
             ] })
