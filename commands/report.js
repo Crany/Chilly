@@ -53,7 +53,7 @@ module.exports = {
             )
             .setFooter(`ID: \`${identifier}\``)
             .setTimestamp(new Date())
-            client.channels.cache.get('990298827208683590').send({ embeds: [reportChannelEmbed] })
+            client.channels.cache.get('992838852593070142').send({ embeds: [reportChannelEmbed] })
 
             const reportdb = new reportDB({
                 _id: new mongoose.Types.ObjectId,
