@@ -60,7 +60,7 @@ module.exports = {
 
             interaction.guild.channels.cache.get(keywords.userdashboardID).send({ embeds: [
                 new MessageEmbed()
-                .setDescription(`${warned.user.tag} has been warned.`)
+                .setTitle(`${warned.user.tag} has been warned.`)
                 .addFields(
                     {name: 'Warned:', value: warned.user.tag, inline: true},
                     {name: 'Warned By:', value: interaction.user.tag, inline: true},
