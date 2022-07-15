@@ -2,5 +2,4 @@
 
 For anything regarding the server itself, contact:
 - `Greenking#5114`
-- `Crany#6596`
 - `rewvu#9588` 
