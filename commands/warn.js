@@ -71,6 +71,12 @@ module.exports = {
                 .setColor(keywords.embedColors.ORANGE)
             ] })
 
+            warned.user.send({ embeds: [
+                new MessageEmbed()
+                .setTitle('You have been warned')
+                .setColor(keywords.embedColors.ORANGE)
+            ] }).catch();
+
             const warnSave = new warnDB({
                 _id: new mongoose.Types.ObjectId,
                 reason: reason,
