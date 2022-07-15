@@ -2,7 +2,8 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const reportDB = require('../models/report.js')
 const randomWords = require('random-words')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const keywords = require('../util/keywords.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
