@@ -58,7 +58,7 @@ module.exports = {
 
             await interaction.reply({ embeds: [replyEmbed] })
 
-            interaction.guild.channels.cache.get('992838852593070142').send({ embeds: [
+            interaction.guild.channels.cache.get(keywords.userdashboardID).send({ embeds: [
                 new MessageEmbed()
                 .setDescription(`${warned.user.tag} has been warned.`)
                 .addFields(
