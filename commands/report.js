@@ -1,9 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const reportDB = require('../models/report.js')
 const randomWords = require('random-words')
 const mongoose = require('mongoose');
 const keywords = require('../util/keywords.js');
+const createID = require('../util/createID.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,36 +24,36 @@ module.exports = {
         let reportedUser = interaction.options.getMember('reported').user;
         let reason = interaction.options.getString('reason');
         let informant = interaction.user
-        let identifier = `${randomWords()}.${randomWords()}.${randomWords()}`;
+        let identifier = `${createID()}`;
 
-        let reportedEmbed = new MessageEmbed()
-        let reportChannelEmbed = new MessageEmbed()
+        let reportedEmbed = new EmbedBuilder()
+        let reportChannelEmbed = new EmbedBuilder()
 
         if (reportedUser.bot) {
             reportedEmbed.setDescription("I can't report Bots.")
-            .setColor('FFBF00');
+            .setColor(keywords.embedColors.ORANGE);
 
             await interaction.reply({ embeds: [reportedEmbed] })
         } else if (informant.id === reportedUser.id) { 
             reportedEmbed.setDescription("You can't report yourself, silly!")
-            .setColor('FFBF00');
+            .setColor(keywords.embedColors.ORANGE);
 
             await interaction.reply({ embeds: [reportedEmbed], ephemeral: true });
         } else {
 
             reportedEmbed.setTitle("Report Sent.")
-            .setColor('GREEN')
+            .setColor(keywords.embedColors.GREEN)
             .setDescription(`Remember this ID: \`${identifier}\``)
             await interaction.reply({ embeds: [reportedEmbed] })
 
             reportChannelEmbed.setTitle(`${reportedUser.tag} was reported. [Discord]`)            
-            .setColor('FFBF00')
+            .setColor(keywords.embedColors.ORANGE)
             .addFields(
                 { name: 'Reported:', value: reportedUser.tag, inline: true},
                 { name: 'Reported By:', value: informant.tag, inline: true},
                 { name: 'Reason:', value: reason, inline: true},
             )
-            .setFooter(`ID: ${identifier}`)
+            .setFooter({text: `ID: ${identifier}`})
             .setTimestamp(new Date())
             client.channels.cache.get(keywords.userdashboardID).send({ embeds: [reportChannelEmbed] })
 

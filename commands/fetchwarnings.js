@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 const mongoose = require('mongoose')
 
@@ -46,7 +46,7 @@ module.exports = {
 
         if (!hasModRoles.has(interaction)) {
             await interaction.reply({ embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                 .setDescription('You have to be a moderator to complete this action.')
                 .setColor(keywords.embedColors.ORANGE)
             ] })
@@ -64,7 +64,7 @@ module.exports = {
             });
 
             setTimeout(async () => {
-                const resultEmbed = new MessageEmbed()
+                const resultEmbed = new EmbedBuilder()
                 if (warningFetch.length == 0) {
                     resultEmbed.setColor(keywords.embedColors.ORANGE)
                     .setDescription('Nothing was returned [Error: `404`]')

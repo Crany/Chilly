@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders')
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const keywords = require('../util/keywords');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,6 +14,6 @@ module.exports = {
     async execute(interaction, client) {
         let query = interaction.options.getString('query')
 
-        await interaction.reply({ embeds: [new MessageEmbed().setColor('GREEN').setDescription(query)] })
+        await interaction.reply({ embeds: [new EmbedBuilder().setColor(keywords.embedColors.GREEN).setDescription(query)] })
     } 
 }

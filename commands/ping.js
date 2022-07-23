@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -8,7 +8,7 @@ module.exports = {
     async execute(interaction, client) {
         var ping = client.ws.ping; // Gets the ping of the bot //
 
-        let pingEmbed = new MessageEmbed()
+        let pingEmbed = new EmbedBuilder()
         .setTitle(`Pong! \`${ping}ms\``)
         
         if (ping >= "500") { // Terrible Connection //

@@ -1,10 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const mongoose = require('mongoose');
 const hasModRoles = require('../util/hasModRoles');
 const keywords = require('../util/keywords')
-const warnDB = require('../models/warn')
-const randwords = require('random-words')
+const warnDB = require('../models/warn');
+const createID = require('../util/createID');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,13 +22,13 @@ module.exports = {
     async execute(interaction, client) {
         let warned = interaction.options.getMember('user');
         let reason = interaction.options.getString('reason');
-        let identifier = `${randwords()}.${randwords()}.${randwords()}`;
+        let identifier = `${createID()}`;
 
         let targetHasModRoles = hasModRoles.roles.some(roles => 
             warned.roles.cache.has(roles)
         )
 
-        let replyEmbed = new MessageEmbed()
+        let replyEmbed = new EmbedBuilder()
 
         if (warned.user.id == interaction.user.id) {
             replyEmbed.setDescription('You can\'t warn yourself.')
@@ -59,20 +59,20 @@ module.exports = {
             await interaction.reply({ embeds: [replyEmbed] })
 
             interaction.guild.channels.cache.get(keywords.userdashboardID).send({ embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                 .setTitle(`${warned.user.tag} has been warned.`)
                 .addFields(
                     {name: 'Warned:', value: warned.user.tag, inline: true},
                     {name: 'Warned By:', value: interaction.user.tag, inline: true},
                     {name: 'Reason', value: reason, inline: true},
                 )
-                .setFooter(`ID: ${identifier}`)
+                .setFooter({text: `ID: ${identifier}`})
                 .setTimestamp()
                 .setColor(keywords.embedColors.ORANGE)
             ] })
 
             warned.user.send({ embeds: [
-                new MessageEmbed()
+                new EmbedBuilder()
                 .setTitle('You have been warned')
                 .setColor(keywords.embedColors.ORANGE)
             ] }).catch();
