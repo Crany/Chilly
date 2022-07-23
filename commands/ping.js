@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder } = require('discord.js');
+const keywords = require('../util/keywords');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,12 +13,12 @@ module.exports = {
         .setTitle(`Pong! \`${ping}ms\``)
         
         if (ping >= "500") { // Terrible Connection //
-            pingEmbed.setColor("RED");
+            pingEmbed.setColor(keywords.embedColors.RED);
             pingEmbed.setDescription(`Pong! \`${ping}ms\`\nSeems like we're experiencing some networking issues.`)
         } else if (ping >= "250") { // Degraded Connection //
-            pingEmbed.setColor("FFBF00");
+            pingEmbed.setColor(keywords.embedColors.ORANGE);
         } else if (ping < "250") { // Good Connection //
-            pingEmbed.setColor("GREEN");
+            pingEmbed.setColor(keywords.embedColors.GREEN);
         }
 
         return await interaction.reply({ embeds: [pingEmbed] });
