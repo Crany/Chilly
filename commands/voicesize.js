@@ -14,12 +14,7 @@ module.exports = {
     async execute(interaction, client) {
         let size = interaction.options.getInteger('size')
 
-        let privateVoiceChannels = [
-            '989238982183370853',  // Private 1
-            '992150933922381995',  // Private 2
-            '996842452281466910',  // Private 3
-            '1000761275892117625', // Admin Private
-        ]
+        let privateVoiceChannels = require('../data/privateVoiceChannels')
 
         let response = new EmbedBuilder();
         let user = await interaction.member;
