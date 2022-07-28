@@ -73,7 +73,9 @@ module.exports = {
 
             warned.user.send({ embeds: [
                 new EmbedBuilder()
-                .setTitle('You have been warned')
+                .setTitle(`You have been warned for the following reason:`)
+                .setDescription(reason)
+                .setFooter({ text: `Remember this ID: ${identifier}` })
                 .setColor(keywords.embedColors.ORANGE)
             ] }).catch();
 
