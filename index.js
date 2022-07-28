@@ -16,6 +16,7 @@ const client = new Client({ // Create Discord Client //
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessageTyping,
         GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildVoiceStates,
     ], partials: [
         'CHANNEL',
         'GUILD_MEMBER',
@@ -76,6 +77,16 @@ const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
 client.once('ready', () => {
     console.log('└── Connected to Discord.')
+})
+
+client.on('voiceStateUpdate', (oldState, newState) => {
+    let privateVoiceChannels = require('./data/privateVoiceChannels')
+
+    if (newState.channelId === null) {
+        if (oldState.channel.members.size == 0 && privateVoiceChannels.includes(oldState.channelId)) {
+            oldState.channel.setUserLimit(1);
+        }
+    }
 })
 
 client.on('interactionCreate', async (interaction) => { // On the creation of an interaction
