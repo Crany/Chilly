@@ -4,7 +4,7 @@ const keywords = require('../util/keywords');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('voicesize')
+    .setName('userlimit')
     .setDescription('Sets the size of a Private voice channel.')
     .addIntegerOption(option =>
         option.setName('size')
@@ -22,12 +22,12 @@ module.exports = {
 
         if (size < 1) {
             response.setColor(keywords.embedColors.ORANGE)
-            .setDescription("The size of the channel has to be greater than 1.")
+            .setDescription("The user of the channel has to be greater than 1.")
 
             await interaction.reply({ embeds: [response] })
         } else if (size >= 99) {
             response.setColor(keywords.embedColors.ORANGE)
-            .setDescription("The size of the channel has to be smaller than 100.")
+            .setDescription("The user limit of the channel has to be smaller than 100.")
 
             await interaction.reply({ embeds: [response] })
         } else if (!voice || !privateVoiceChannels.includes(voice.id)) {
@@ -38,7 +38,7 @@ module.exports = {
         } else {
             voice.setUserLimit(size)
 
-            response.setDescription(`Sucessfully set user limit of channel \`${voice.name}\` to \`${size}\`.`)
+            response.setDescription(`Successfully set user limit of channel \`${voice.name}\` to \`${size}\`.`)
             .setColor(keywords.embedColors.GREEN)
 
             await interaction.reply({ embeds: [response] })
