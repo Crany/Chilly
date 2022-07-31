@@ -12,6 +12,7 @@ const client = new Client({ // Create Discord Client //
     intents: [
         GatewayIntentBits.DirectMessages,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
         GatewayIntentBits.DirectMessageReactions,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessageTyping,
@@ -106,6 +107,11 @@ client.on('interactionCreate', async (interaction) => { // On the creation of an
         if (interaction.type != InteractionType.ApplicationCommandAutocomplete) return;
         else console.log(`${interaction.user.tag} use the /${interaction.commandName} command`); 
     }
+})
+
+client.on('messageCreate', async (message) => {
+    const splitCheck = message.content.split('esex');
+    if (splitCheck.length >= 2) message.delete();
 })
 
 mongoose.connect(process.env.MONGODB_URI, {
