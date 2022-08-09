@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const keywords = require('./util/keywords');
+const { EmbedBuilder } = require('@discordjs/builders');
 
 const client = new Client({ // Create Discord Client //
     intents: [
@@ -15,6 +17,7 @@ const client = new Client({ // Create Discord Client //
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.DirectMessageReactions,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildBans,
         GatewayIntentBits.GuildMessageTyping,
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildVoiceStates,
@@ -80,7 +83,7 @@ client.once('ready', () => {
     console.log('└── Connected to Discord.')
 })
 
-client.on('voiceStateUpdate', (oldState, newState) => {
+client.on('voiceStateUpdate', (oldState, newState) => { // When a user joins or leaves a call
     let privateVoiceChannels = require('./data/privateVoiceChannels')
 
     if (newState.channelId === null) {
@@ -90,22 +93,53 @@ client.on('voiceStateUpdate', (oldState, newState) => {
     }
 })
 
+client.on('guildBanAdd', (ban) => {
+    let reason = ban.reason;
+
+    if (reason == undefined) reason = "[Unspecified]";
+
+    ban.guild.channels.cache.get(keywords.userdashboardID)?.send({ embeds: [
+        new EmbedBuilder()
+        .setTitle(`${ban.user.tag} was just banned for the following reason:`)
+        .setDescription(reason)
+        .setColor(keywords.embedColors.ORANGE)
+    ] });
+})
+
+let countdownUsers = [];
+
 client.on('interactionCreate', async (interaction) => { // On the creation of an interaction
     const command = client.commands.get(interaction.commandName);
     if (!interaction.isChatInputCommand() && interaction.type != InteractionType.ApplicationCommandAutocomplete) return;
     else if (!command) return;
     else {
-        try {
-            await command.execute(interaction, client);
-        } catch (error) {
-            console.error(error);
-            try  {
-                await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-            } catch {}
-        }
+        if (countdownUsers.includes(interaction.user.id)) {
+            await interaction.reply({ embeds: [
+                new EmbedBuilder()
+                .setColor(keywords.embedColors.ORANGE)
+                .setTitle("Whoa hol' up there!")
+                .setDescription("You're sending commands a tad bit too fast. You have to wait 15 seconds between each command.")
+            ], ephemeral: true })
+        } else {
+            try {
+                countdownUsers.push(interaction.user.id);
+                setTimeout(() => countdownUsers.splice(countdownUsers.indexOf(interaction.user.id), 1), 25000)
 
-        if (interaction.type != InteractionType.ApplicationCommandAutocomplete) return;
-        else console.log(`${interaction.user.tag} use the /${interaction.commandName} command`); 
+                await command.execute(interaction, client);
+
+                const automation = ['warn'];
+
+                if (automation.includes(interaction.commandName)) require(`./auto/${interaction.commandName}.js`).execute(interaction, client);
+            } catch (error) {
+                console.error(error);
+                try  {
+                    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+                } catch {}
+            }
+
+            if (interaction.type != InteractionType.ApplicationCommandAutocomplete) return;
+            else console.log(`${interaction.user.tag} use the /${interaction.commandName} command`); 
+        }
     }
 })
 
