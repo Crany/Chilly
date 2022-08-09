@@ -114,10 +114,21 @@ client.on('interactionCreate', async (interaction) => { // On the creation of an
     else if (!command) return;
     else {
         if (countdownUsers.includes(interaction.user.id)) {
+            const random = require(Math.floor)
+
+            const replies = [
+                "Hol' up, wait a minute, somethin ain't right.", "Well goddamn.",
+                "Mom, I think someones at the door.", "Gotta go fast!",
+                "Draw 25 or go send your messages slower.", "Yeetus that feetus- I meant enter key.",
+                "Why're you acting like a Discord Mod?", "Are you a pro enter-key-presser?",
+                "Stop it, get help.", "Every 60 seconds in africa, you type a command.",
+                "Are you trying to be funny? BeCaUSe iT'S wOrkING."
+            ]
+
             await interaction.reply({ embeds: [
                 new EmbedBuilder()
                 .setColor(keywords.embedColors.ORANGE)
-                .setTitle("Hol' up, wait a minute, somethin ain't right.")
+                .setTitle(Math.floor(Math.random() * (replies.length - 1)))
                 .setDescription("You're sending commands a tad bit too fast. You have to wait 15 seconds between each command.")
             ], ephemeral: true })
         } else {
