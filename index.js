@@ -114,8 +114,6 @@ client.on('interactionCreate', async (interaction) => { // On the creation of an
     else if (!command) return;
     else {
         if (countdownUsers.includes(interaction.user.id)) {
-            const random = require(Math.floor)
-
             const replies = [
                 "Hol' up, wait a minute, somethin ain't right.", "Well goddamn.",
                 "Mom, I think someones at the door.", "Gotta go fast!",
