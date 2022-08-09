@@ -128,7 +128,7 @@ client.on('interactionCreate', async (interaction) => { // On the creation of an
             await interaction.reply({ embeds: [
                 new EmbedBuilder()
                 .setColor(keywords.embedColors.ORANGE)
-                .setTitle(Math.floor(Math.random() * (replies.length - 1)))
+                .setTitle(replies[Math.floor(Math.random() * (replies.length - 1))])
                 .setDescription("You're sending commands a tad bit too fast. You have to wait 15 seconds between each command.")
             ], ephemeral: true })
         } else {
